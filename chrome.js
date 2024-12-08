@@ -2,7 +2,7 @@ import got from "got";
 import fs from "node:fs/promises";
 import { compareVersions } from "compare-versions";
 import { getLogger } from "./log.js";
-import { getJsonEndpoint, getJsonFile } from "./common.js";
+import { getJsonEndpoint, getJsonFile, commitNewVersion } from "./common.js";
 /**
 @typedef {Object} ChromeVersionResponse
 @property {Object} channels
@@ -43,6 +43,16 @@ export const diffChromeVersions = (latestVersion, currentVersion) => {
   );
   const msg =
     diff > 0 ? "a newer version available" : "current version is up to date";
+
+  if (diff > 0) {
+    log("committing new version");
+    commitNewVersion(
+      "chrome",
+      "./chrome_version.json",
+      latestVersion.channels.Stable.version,
+    );
+  }
+
   log(msg);
   return diff;
 };
