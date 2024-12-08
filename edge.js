@@ -127,11 +127,7 @@ export const updateEdgeVersion = async (latestVersion) => {
 
   log("committing new version");
 
-  commitNewVersion(
-    "edge",
-    "./edge_version.json",
-    latestVersion?.ProductVersion,
-  );
+  commitNewVersion("./edge_version.json");
 
   log("edge version file updated");
 };

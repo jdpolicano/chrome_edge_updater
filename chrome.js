@@ -61,11 +61,7 @@ export const updateChromeVersion = async (latestVersion) => {
 
   log("committing new version");
 
-  commitNewVersion(
-    "chrome",
-    "./chrome_version.json",
-    latestVersion.channels.Stable.version,
-  );
+  commitNewVersion("./chrome_version.json");
 
   log("chrome version file updated");
 };
