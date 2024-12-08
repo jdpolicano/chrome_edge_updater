@@ -81,11 +81,6 @@ const diffEdgeProduct = (latest, current) => {
       log(
         `found newer version ${latestRelease.ProductVersion} for ${latestRelease.Platform} ${latestRelease.Architecture}`,
       );
-      commitNewVersion(
-        "edge",
-        "./edge_version.json",
-        latestRelease.ProductVersion,
-      );
       return diff;
     }
   }
@@ -123,9 +118,15 @@ const isInterestingRelease = (release) => {
 */
 export const updateEdgeVersion = async (latestVersion) => {
   log("updating edge version");
+
   await fs.writeFile(
     "./edge_version.json",
     JSON.stringify(latestVersion, null, 2),
   );
+
+  log("committing new version");
+
+  commitNewVersion("edge", "./edge_version.json", latestRelease.ProductVersion);
+
   log("edge version file updated");
 };
