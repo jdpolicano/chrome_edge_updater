@@ -1,5 +1,6 @@
 // https://edgeupdates.microsoft.com/api/products
 import got from "got";
+import fs from "node:fs/promises";
 import { compareVersions } from "compare-versions";
 import { getLogger } from "./log.js";
 import { getJsonEndpoint, getJsonFile, commitNewVersion } from "./common.js";
