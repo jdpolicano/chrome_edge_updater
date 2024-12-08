@@ -43,16 +43,6 @@ export const diffChromeVersions = (latestVersion, currentVersion) => {
   );
   const msg =
     diff > 0 ? "a newer version available" : "current version is up to date";
-
-  if (diff > 0) {
-    log("committing new version");
-    commitNewVersion(
-      "chrome",
-      "./chrome_version.json",
-      latestVersion.channels.Stable.version,
-    );
-  }
-
   log(msg);
   return diff;
 };
@@ -63,9 +53,19 @@ export const diffChromeVersions = (latestVersion, currentVersion) => {
 */
 export const updateChromeVersion = async (latestVersion) => {
   log("updating chrome version");
+
   await fs.writeFile(
     "./chrome_version.json",
     JSON.stringify(latestVersion, null, 2),
   );
+
+  log("committing new version");
+
+  commitNewVersion(
+    "chrome",
+    "./chrome_version.json",
+    latestVersion.channels.Stable.version,
+  );
+
   log("chrome version file updated");
 };
