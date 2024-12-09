@@ -2,48 +2,29 @@ import {
   getLatestChromeVersion,
   getCurrentChromeVersion,
   diffChromeVersions,
-  updateChromeVersion,
+  updateChromeVersionFile,
 } from "./chrome.js";
-
 import {
   getLatestEdgeVersion,
   getCurrentEdgeVersion,
   diffEdgeVersions,
-  updateEdgeVersion,
+  updateEdgeVersionFile,
 } from "./edge.js";
-
-async function runCheck(
-  getLatestVersion,
-  getCurrentVersion,
-  diffVersions,
-  updateVersion,
-) {
-  try {
-    const latestVersion = await getLatestVersion();
-    const currentVersion = await getCurrentVersion();
-    if (diffVersions(latestVersion, currentVersion) > 0) {
-      await updateVersion(latestVersion);
-      return { ok: true, statusCode: 0, shouldPush: true };
-    }
-    return { ok: true, statusCode: 0, shouldPush: false };
-  } catch (e) {
-    console.error(e);
-    return { ok: false, statusCode: 1, shouldPush: false };
-  }
-}
+import { runCheck } from "./main.js";
+import { addCommitPush } from "./git.js";
 
 const chromeResult = await runCheck(
   getLatestChromeVersion,
   getCurrentChromeVersion,
   diffChromeVersions,
-  updateChromeVersion,
+  updateChromeVersionFile,
 );
 
 const edgeResult = await runCheck(
   getLatestEdgeVersion,
   getCurrentEdgeVersion,
   diffEdgeVersions,
-  updateEdgeVersion,
+  updateEdgeVersionFile,
 );
 
 console.log("build script done");
@@ -59,10 +40,8 @@ if (edgeResult.statusCode !== 0) {
   process.exit(edgeResult.statusCode);
 }
 
-if (chromeResult.shouldCommit || edgeResult.shouldCommit) {
-  console.log("committing updates");
-  execSync("git add chrome_version.json");
-  execSync("git commit -m 'update chrome version'");
+if (chromeResult.shouldPush || edgeResult.shouldPush) {
+  addCommitPush(chromeResult.shouldPush, edgeResult.shouldPush);
 }
 
 process.exit(0);

@@ -2,7 +2,7 @@ import got from "got";
 import fs from "node:fs/promises";
 import { compareVersions } from "compare-versions";
 import { getLogger } from "./log.js";
-import { getJsonEndpoint, getJsonFile, commitNewVersion } from "./common.js";
+import { getJsonEndpoint, getJsonFile } from "./common.js";
 /**
 @typedef {Object} ChromeVersionResponse
 @property {Object} channels
@@ -51,17 +51,13 @@ export const diffChromeVersions = (latestVersion, currentVersion) => {
 @param {ChromeVersionResponse} latestVersion
 @returns {Promise<void>}
 */
-export const updateChromeVersion = async (latestVersion) => {
+export const updateChromeVersionFile = async (latestVersion) => {
   log("updating chrome version");
 
   await fs.writeFile(
     "./chrome_version.json",
     JSON.stringify(latestVersion, null, 2),
   );
-
-  log("committing new version");
-
-  commitNewVersion("./chrome_version.json");
 
   log("chrome version file updated");
 };
