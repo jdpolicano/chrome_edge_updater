@@ -26,8 +26,8 @@ export function addCommitPush(chromeChanged, edgeChanged, dryRun = false) {
       execSync(`git add .`);
       execSync(`git commit -m '${commitMsg}'`);
       execSync(`git push`);
-    } catch {
-      log("failed to commit and push");
+    } catch (e) {
+      log("failed to commit and push", e?.message);
     }
   } else {
     printGitPlan(commitMsg);
