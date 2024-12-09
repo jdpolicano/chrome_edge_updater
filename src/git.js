@@ -35,5 +35,5 @@ export function addCommitPush(chromeChanged, edgeChanged, dryRun = false) {
 
 export function printGitPlan(commands) {
   log("dryRun flag present, would run the following commands:");
-  commands.forEach(c => log(`- ${c}`);
+  commands.forEach((c) => log(`- ${c}`));
 }
