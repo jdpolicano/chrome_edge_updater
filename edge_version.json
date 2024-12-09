@@ -7,7 +7,7 @@
         "Platform": "Windows",
         "Architecture": "x64",
         "CVEs": [],
-        "ProductVersion": "131.0.2903.86",
+        "ProductVersion": "131.0.293.86",
         "Artifacts": [
           {
             "artifactName": "msi",
