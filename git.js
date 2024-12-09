@@ -37,6 +37,6 @@ export function addCommitPush(chromeChanged, edgeChanged, dryRun = false) {
 function printGitPlan(commitMsg) {
   log("dryRun flag present, would run the following commands:");
   log("- git add .");
-  log(`- git commit -m '${commitMsg}'`);
+  log(`- git commit -m '[skip-ci] ${commitMsg}'`);
   log("- git push");
 }
