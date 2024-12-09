@@ -76,7 +76,12 @@ const isInterestingRelease = (release) => {
   );
 };
 
-export const updateEdgeVersionFile = async (latestVersion) => {
+export const updateEdgeVersionFile = async (latestVersion, dryRun = false) => {
+  if (dryRun) {
+    log("dryRun flag present, skipping file update");
+    return;
+  }
+
   log("updating edge version");
 
   await fs.writeFile(

@@ -51,7 +51,15 @@ export const diffChromeVersions = (latestVersion, currentVersion) => {
 @param {ChromeVersionResponse} latestVersion
 @returns {Promise<void>}
 */
-export const updateChromeVersionFile = async (latestVersion) => {
+export const updateChromeVersionFile = async (
+  latestVersion,
+  dryRun = false,
+) => {
+  if (dryRun) {
+    log("dryRun flag present, skipping file update");
+    return;
+  }
+
   log("updating chrome version");
 
   await fs.writeFile(
