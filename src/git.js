@@ -33,9 +33,7 @@ export function addCommitPush(chromeChanged, edgeChanged, dryRun = false) {
   }
 }
 
-function printGitPlan(commands) {
+export function printGitPlan(commands) {
   log("dryRun flag present, would run the following commands:");
-  for (const command of commands) {
-    log(`- ${command}`);
-  }
+  commands.forEach(c => log(`- ${c}`);
 }
