@@ -22,9 +22,13 @@ export function getCommitMessage(chromeChanged, edgeChanged) {
 export function addCommitPush(chromeChanged, edgeChanged, dryRun = false) {
   const commitMsg = getCommitMessage(chromeChanged, edgeChanged);
   if (!dryRun) {
-    execSync(`git add .`);
-    execSync(`git commit -m '${commitMsg}'`);
-    execSync(`git push`);
+    try {
+      execSync(`git add .`);
+      execSync(`git commit -m '${commitMsg}'`);
+      execSync(`git push`);
+    } catch (e) {
+      log("failed to commit and push", e?.message);
+    }
   } else {
     printGitPlan(commitMsg);
   }
