@@ -4,12 +4,6 @@ import { compareVersions } from "compare-versions";
 import { getLogger } from "./log.js";
 import { getJsonEndpoint, getJsonFile } from "./common.js";
 import { validateSchema, chromeResponseSchema } from "./schemas.js";
-/**
-@typedef {Object} ChromeVersionResponse
-@property {Object} channels
-@property {Object} channels.Stable
-@property {string} channels.Stable.version
-*/
 
 const log = getLogger("chrome");
 
