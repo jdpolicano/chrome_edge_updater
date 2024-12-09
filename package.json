@@ -4,7 +4,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "check-versions": "node ./src/index.js",
+    "dry-run": "cross-env DRY_RUN=true node ./src/index.js"
   },
   "keywords": [],
   "author": "",
@@ -13,5 +15,8 @@
   "dependencies": {
     "compare-versions": "^6.1.1",
     "got": "^14.4.5"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }
