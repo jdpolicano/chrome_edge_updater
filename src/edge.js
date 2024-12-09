@@ -3,11 +3,23 @@ import fs from "node:fs/promises";
 import { compareVersions } from "compare-versions";
 import { getLogger } from "./log.js";
 import { getJsonEndpoint, getJsonFile } from "./common.js";
+import { validateSchema, edgeResponseSchema } from "./schemas.js";
 
 const log = getLogger("msedge");
 
-export const getLatestEdgeVersion = () => {
-  return getJsonEndpoint("https://edgeupdates.microsoft.com/api/products", log);
+export const getLatestEdgeVersion = async () => {
+  const response = await getJsonEndpoint(
+    "https://edgeupdates.microsoft.com/api/products",
+    log,
+  );
+
+  const validated = validateSchema(edgeResponseSchema, response, log);
+
+  if (!validated) {
+    throw new Error("schema validation failed");
+  }
+
+  return validated;
 };
 
 export const getCurrentEdgeVersion = () => {
@@ -28,11 +40,7 @@ export const diffEdgeVersions = (latestVersion, currentVersion) => {
   return diffEdgeProduct(latest, current);
 };
 
-const diffEdgeProduct = (latestProduct, currentProduct) => {
-  if (latestProduct?.Product !== currentProduct?.Product) {
-    return 0;
-  }
-
+export const diffEdgeProduct = (latestProduct, currentProduct) => {
   const latestReleases = latestProduct.Releases.filter(isInterestingRelease);
   const currentReleases = currentProduct.Releases.filter(isInterestingRelease);
 
@@ -63,12 +71,12 @@ const diffEdgeProduct = (latestProduct, currentProduct) => {
   return 0;
 };
 
-const diffEdgeRelease = (latest, current) => {
+export const diffEdgeRelease = (latest, current) => {
   log("diffing release", latest.Platform, latest.Architecture);
   return compareVersions(latest.ProductVersion, current.ProductVersion);
 };
 
-const isInterestingRelease = (release) => {
+export const isInterestingRelease = (release) => {
   return (
     release.Platform === "Windows" ||
     release.Platform === "MacOS" ||

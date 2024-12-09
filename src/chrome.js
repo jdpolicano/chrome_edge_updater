@@ -3,6 +3,7 @@ import fs from "node:fs/promises";
 import { compareVersions } from "compare-versions";
 import { getLogger } from "./log.js";
 import { getJsonEndpoint, getJsonFile } from "./common.js";
+import { validateSchema, chromeResponseSchema } from "./schemas.js";
 /**
 @typedef {Object} ChromeVersionResponse
 @property {Object} channels
@@ -15,11 +16,19 @@ const log = getLogger("chrome");
 /**
  * @returns {Promise<ChromeVersionResponse>}
  */
-export const getLatestChromeVersion = async (a) => {
-  return getJsonEndpoint(
+export const getLatestChromeVersion = async () => {
+  const response = await getJsonEndpoint(
     "https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions.json",
     log,
   );
+
+  const validated = validateSchema(chromeResponseSchema, response, log);
+
+  if (!validated) {
+    throw new Error("schema validation failed");
+  }
+
+  return validated;
 };
 
 /**
@@ -42,7 +51,7 @@ export const diffChromeVersions = (latestVersion, currentVersion) => {
     currentVersion.channels.Stable.version,
   );
   const msg =
-    diff > 0 ? "a newer version available" : "current version is up to date";
+    diff > 0 ? "a newer version is available" : "current version is up to date";
   log(msg);
   return diff;
 };

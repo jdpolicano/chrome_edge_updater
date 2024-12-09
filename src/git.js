@@ -21,22 +21,21 @@ export function getCommitMessage(chromeChanged, edgeChanged) {
 
 export function addCommitPush(chromeChanged, edgeChanged, dryRun = false) {
   const commitMsg = getCommitMessage(chromeChanged, edgeChanged);
+  const gitCommands = [`git add .`, `git commit -m '${commitMsg}'`, `git push`];
   if (!dryRun) {
     try {
-      execSync(`git add .`);
-      execSync(`git commit -m '${commitMsg}'`);
-      execSync(`git push`);
+      gitCommands.forEach((command) => execSync(command));
     } catch (e) {
       log("failed to commit and push");
     }
   } else {
-    printGitPlan(commitMsg);
+    printGitPlan(gitCommands);
   }
 }
 
-function printGitPlan(commitMsg) {
+function printGitPlan(commands) {
   log("dryRun flag present, would run the following commands:");
-  log("- git add .");
-  log(`- git commit -m '${commitMsg}'`);
-  log("- git push");
+  for (const command of commands) {
+    log(`- ${command}`);
+  }
 }
