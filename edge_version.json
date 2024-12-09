@@ -7,7 +7,7 @@
         "Platform": "Windows",
         "Architecture": "x64",
         "CVEs": [],
-        "ProductVersion": "131.0.293.86",
+        "ProductVersion": "131.0.2903.86",
         "Artifacts": [
           {
             "artifactName": "msi",
@@ -114,16 +114,6 @@
         "ExpectedExpiryDate": "2025-12-05T21:51:00"
       },
       {
-        "ReleaseId": 85866,
-        "Platform": "iOS",
-        "Architecture": "arm64",
-        "CVEs": [],
-        "ProductVersion": "131.0.2903.87",
-        "Artifacts": [],
-        "PublishedTime": "2024-12-06T02:32:00",
-        "ExpectedExpiryDate": "2025-12-06T02:32:00"
-      },
-      {
         "ReleaseId": 85868,
         "Platform": "Android",
         "Architecture": "arm64",
@@ -132,6 +122,16 @@
         "Artifacts": [],
         "PublishedTime": "2024-12-06T06:00:00",
         "ExpectedExpiryDate": "2025-03-06T06:00:00"
+      },
+      {
+        "ReleaseId": 85983,
+        "Platform": "iOS",
+        "Architecture": "arm64",
+        "CVEs": [],
+        "ProductVersion": "131.0.2903.92",
+        "Artifacts": [],
+        "PublishedTime": "2024-12-09T03:36:00",
+        "ExpectedExpiryDate": "2025-12-09T03:36:00"
       }
     ]
   },
@@ -404,76 +404,76 @@
     "Product": "Canary",
     "Releases": [
       {
-        "ReleaseId": 85873,
-        "Platform": "Android",
-        "Architecture": "arm64",
-        "CVEs": [],
-        "ProductVersion": "133.0.2999.0",
-        "Artifacts": [],
-        "PublishedTime": "2024-12-06T08:09:00",
-        "ExpectedExpiryDate": "2025-03-06T08:09:00"
-      },
-      {
-        "ReleaseId": 85929,
-        "Platform": "Windows",
-        "Architecture": "x64",
-        "CVEs": [],
-        "ProductVersion": "133.0.3002.0",
-        "Artifacts": [],
-        "PublishedTime": "2024-12-07T16:01:00",
-        "ExpectedExpiryDate": "2025-03-07T09:16:00"
-      },
-      {
-        "ReleaseId": 85930,
+        "ReleaseId": 85989,
         "Platform": "Windows",
         "Architecture": "x86",
         "CVEs": [],
-        "ProductVersion": "133.0.3002.0",
+        "ProductVersion": "133.0.3006.0",
         "Artifacts": [],
-        "PublishedTime": "2024-12-07T16:01:00",
-        "ExpectedExpiryDate": "2025-03-07T09:18:00"
+        "PublishedTime": "2024-12-09T12:57:00",
+        "ExpectedExpiryDate": "2025-03-09T08:09:00"
       },
       {
-        "ReleaseId": 85931,
+        "ReleaseId": 85990,
+        "Platform": "Windows",
+        "Architecture": "x64",
+        "CVEs": [],
+        "ProductVersion": "133.0.3006.0",
+        "Artifacts": [],
+        "PublishedTime": "2024-12-09T12:55:00",
+        "ExpectedExpiryDate": "2025-03-09T08:09:00"
+      },
+      {
+        "ReleaseId": 85991,
         "Platform": "Windows",
         "Architecture": "arm64",
         "CVEs": [],
-        "ProductVersion": "133.0.3002.0",
+        "ProductVersion": "133.0.3006.0",
         "Artifacts": [],
-        "PublishedTime": "2024-12-07T15:52:00",
-        "ExpectedExpiryDate": "2025-03-07T09:18:00"
+        "PublishedTime": "2024-12-09T12:49:00",
+        "ExpectedExpiryDate": "2025-03-09T08:10:00"
       },
       {
-        "ReleaseId": 85942,
+        "ReleaseId": 85992,
+        "Platform": "Android",
+        "Architecture": "arm64",
+        "CVEs": [],
+        "ProductVersion": "133.0.3005.0",
+        "Artifacts": [],
+        "PublishedTime": "2024-12-09T08:14:00",
+        "ExpectedExpiryDate": "2025-03-09T08:14:00"
+      },
+      {
+        "ReleaseId": 86009,
         "Platform": "MacOS",
         "Architecture": "universal",
         "CVEs": [],
-        "ProductVersion": "133.0.3002.0",
+        "ProductVersion": "133.0.3006.0",
         "Artifacts": [
           {
             "artifactName": "pkg",
-            "location": "https://msedge.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/fcf219de-b849-46e8-90b3-87eb62ea0bb3/MicrosoftEdgeCanary-133.0.3002.0.pkg",
-            "hash": "20D51DFB725DD4F4529A4ACDF005A18D0D5F0D5664193B0318D3CED03EF4CE9D",
+            "location": "https://msedge.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/65644a52-d56e-43cd-8c45-087358753f48/MicrosoftEdgeCanary-133.0.3006.0.pkg",
+            "hash": "CE1704211E5901C01B7759C6A7D5CF774FDAA07B024CF28864C870EBBF7B5D51",
             "hashAlgorithm": "SHA256",
-            "sizeInBytes": 399242896
+            "sizeInBytes": 399143999
           },
           {
             "artifactName": "plist",
-            "location": "https://msedge.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/75582ff1-c26f-4239-b41a-157c16da81a8/MicrosoftEdgeCanary-133.0.3002.0.plist",
-            "hash": "7BE9F1649FFF6043A34CF9F0C414B26850679ABBF12052246748865A3CFEC2A7",
+            "location": "https://msedge.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/dfd57363-bc94-470f-9e7e-1bb3d5710299/MicrosoftEdgeCanary-133.0.3006.0.plist",
+            "hash": "DD55A0D53AD364F05066A3B14AD0C598575A0796C6E4ACDDE84F9B8571480DC0",
             "hashAlgorithm": "SHA256",
             "sizeInBytes": 3955
           },
           {
             "artifactName": "p7s",
-            "location": "https://msedge.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/d94c61a2-1e4b-47fc-bb01-49548241b92c/signature.p7s",
-            "hash": "71330A7A083B3E0721AF77E56FD88C3FB149D269E846BB95E2F6186C67A660CF",
+            "location": "https://msedge.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/60582cc2-3dca-45fb-8b64-f01aecd805e8/signature.p7s",
+            "hash": "87F5EB119FF90457933F5ABE619CCBE798B5ECBF87A77F0947A2FBA2058F2B0D",
             "hashAlgorithm": "SHA256",
             "sizeInBytes": 9949
           }
         ],
-        "PublishedTime": "2024-12-07T15:58:00",
-        "ExpectedExpiryDate": "2025-03-07T15:58:00"
+        "PublishedTime": "2024-12-09T12:53:00",
+        "ExpectedExpiryDate": "2025-03-09T12:53:00"
       }
     ]
   },
