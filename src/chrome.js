@@ -1,42 +1,24 @@
-import got from "got";
 import fs from "node:fs/promises";
 import { compareVersions } from "compare-versions";
 import { getLogger } from "./log.js";
-import { getJsonEndpoint, getJsonFile } from "./common.js";
-import { validateSchema, chromeResponseSchema } from "./schemas.js";
+import {
+  getJsonEndpointWithValidation,
+  getJsonFileWithValidation,
+} from "./common.js";
+import { chromeResponseSchema } from "./schemas.js";
 
 const log = getLogger("chrome");
 
-/**
- * @returns {Promise<ChromeVersionResponse>}
- */
-export const getLatestChromeVersion = async () => {
-  const response = await getJsonEndpoint(
+export const getLatestChromeVersion = async () =>
+  getJsonEndpointWithValidation(
     "https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions.json",
+    chromeResponseSchema,
     log,
   );
 
-  const validated = validateSchema(chromeResponseSchema, response, log);
+export const getCurrentChromeVersion = async () =>
+  getJsonFileWithValidation("./chrome_version.json", chromeResponseSchema, log);
 
-  if (!validated) {
-    throw new Error("schema validation failed");
-  }
-
-  return validated;
-};
-
-/**
- * @returns {Promise<ChromeVersionResponse>}
- */
-export const getCurrentChromeVersion = async () => {
-  return getJsonFile("./chrome_version.json", log);
-};
-
-/**
-@param {ChromeVersionResponse} latestVersion
-@param {ChromeVersionResponse} currentVersion
-@returns {number}
-*/
 export const diffChromeVersions = (latestVersion, currentVersion) => {
   log("current version:", currentVersion.channels.Stable.version);
   log("latest version:", latestVersion.channels.Stable.version);
@@ -50,10 +32,6 @@ export const diffChromeVersions = (latestVersion, currentVersion) => {
   return diff;
 };
 
-/**
-@param {ChromeVersionResponse} latestVersion
-@returns {Promise<void>}
-*/
 export const updateChromeVersionFile = async (
   latestVersion,
   dryRun = false,

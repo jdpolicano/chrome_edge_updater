@@ -2,33 +2,28 @@
 import fs from "node:fs/promises";
 import { compareVersions } from "compare-versions";
 import { getLogger } from "./log.js";
-import { getJsonEndpoint, getJsonFile } from "./common.js";
+import {
+  getJsonEndpointWithValidation,
+  getJsonFileWithValidation,
+} from "./common.js";
 import { validateSchema, edgeResponseSchema } from "./schemas.js";
 
 const log = getLogger("msedge");
 
-export const getLatestEdgeVersion = async () => {
-  const response = await getJsonEndpoint(
+export const getLatestEdgeVersion = async () =>
+  getJsonEndpointWithValidation(
     "https://edgeupdates.microsoft.com/api/products",
+    edgeResponseSchema,
     log,
   );
 
-  const validated = validateSchema(edgeResponseSchema, response, log);
-
-  if (!validated) {
-    throw new Error("schema validation failed");
-  }
-
-  return validated;
-};
-
-export const getCurrentEdgeVersion = () => {
-  return getJsonFile("./edge_version.json", log);
-};
+export const getCurrentEdgeVersion = () =>
+  getJsonFileWithValidation("./edge_version.json", edgeResponseSchema, log);
 
 export const diffEdgeVersions = (latestVersion, currentVersion) => {
-  const latest = latestVersion.find((p) => p.Product === "Stable");
-  const current = currentVersion.find((p) => p.Product === "Stable");
+  const isStableProduct = (product) => product.Product === "Stable";
+  const latest = latestVersion.find(isStableProduct);
+  const current = currentVersion.find(isStableProduct);
 
   if (!latest || !current) {
     log(
@@ -41,47 +36,32 @@ export const diffEdgeVersions = (latestVersion, currentVersion) => {
 };
 
 export const diffEdgeProduct = (latestProduct, currentProduct) => {
-  const latestReleases = latestProduct.Releases.filter(isInterestingRelease);
-  const currentReleases = currentProduct.Releases.filter(isInterestingRelease);
+  const isLinux = (release) =>
+    release.Platform === "Linux" && release.Architecture === "x64";
 
-  for (const latestRelease of latestReleases) {
-    // find the corresponding release in the current version based on platform and architecture
-    const currentRelease = currentReleases.find(
-      (r) =>
-        r.Platform === latestRelease.Platform &&
-        r.Architecture === latestRelease.Architecture,
-    );
-    // if for some reason we don't have a current release, skip it
-    if (!currentRelease) {
-      continue;
-    }
-    // compare the versions
-    const diff = diffEdgeRelease(latestRelease, currentRelease);
-    // if the latest version is newer, return the diff and short circuit
-    if (diff > 0) {
-      log(
-        `found newer version ${latestRelease.ProductVersion} for ${latestRelease.Platform} ${latestRelease.Architecture}`,
-      );
-      return diff;
-    }
+  const latestRelease = latestProduct.Releases.find(isLinux);
+  const currentRelease = currentProduct.Releases.find(isLinux);
+
+  if (!latestRelease || !currentRelease) {
+    log("one of the latest or current versions is missing a Linux x64 release");
+    return 0;
   }
+  // compare the versions
+  const diff = diffEdgeRelease(latestRelease, currentRelease);
 
-  // fail safe, if we didn't find any newer versions, return 0
-  log("no newer versions found");
-  return 0;
+  const msg =
+    diff > 0
+      ? `found newer version ${latestRelease.ProductVersion} for ${latestRelease.Platform} ${latestRelease.Architecture}`
+      : "current version is up to date";
+  // if the latest version is newer, return the diff and short circuit
+  log(msg);
+
+  return diff;
 };
 
 export const diffEdgeRelease = (latest, current) => {
   log("diffing release", latest.Platform, latest.Architecture);
   return compareVersions(latest.ProductVersion, current.ProductVersion);
-};
-
-export const isInterestingRelease = (release) => {
-  return (
-    release.Platform === "Windows" ||
-    release.Platform === "MacOS" ||
-    release.Platform === "Linux"
-  );
 };
 
 export const updateEdgeVersionFile = async (latestVersion, dryRun = false) => {

@@ -24,11 +24,10 @@ export const edgeResponseSchema = z.array(
 export const validateSchema = (schema, response, log) => {
   try {
     schema.parse(response);
-    log("schema validation success");
+    log("schema ok");
     return response;
   } catch (e) {
     log(e?.message);
     log(JSON.stringify(response, null, 2));
-    return null;
   }
 };
